@@ -13,9 +13,7 @@
   "scripts": {
     "test": "npx jest",
     "prebuild": "rimraf dist",
-    "build": "deno2node tsconfig.build.json",
-    "eslint": "npx eslint --ext .ts src",
-    "eslint:fix": "npx eslint --ext .ts --fix src"
+    "build": "deno2node tsconfig.build.json"
   },
   "repository": {
     "type": "git",
