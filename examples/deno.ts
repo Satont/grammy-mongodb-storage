@@ -1,5 +1,5 @@
 import { Bot, Context, session, SessionFlavor } from "https://deno.land/x/grammy@v1.3.3/mod.ts";
-import { MongoDBAdapter, ISession } from "https://deno.land/x/grammy_mongodb_storage@v1.0.0/mod.ts";
+import { MongoDBAdapter, ISession } from "https://deno.land/x/grammy_mongodb_storage/mod.ts";
 import { MongoClient } from "https://deno.land/x/mongo@v0.26.0/mod.ts";
 
 interface SessionData {
