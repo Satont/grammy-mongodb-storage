@@ -6,15 +6,12 @@ jobs:
   node-tests:
     if: "! contains(toJSON(github.event.commits.*.message), '[skip-ci]')"
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        node-version: [16.x]
     steps:
       - uses: actions/checkout@v1
-      - name: Use Node.js ${{ matrix.node-version }}
+      - name: Use Node.js 16.x
         uses: actions/setup-node@v1
         with:
-          node-version: ${{ matrix.node-version }}
+          node-version: 16.x
       - name: install dependencies
         run: npm install
       - name: build
@@ -22,6 +19,8 @@ jobs:
       - name: tests
         run: npm test
   deno-tests:
+    if: "! contains(toJSON(github.event.commits.*.message), '[skip-ci]')"
+    runs-on: ubuntu-latest
     services:
       mongodb:
           image: mongo
