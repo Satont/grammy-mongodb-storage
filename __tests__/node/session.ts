@@ -15,14 +15,14 @@ let mongod: MongoMemoryServer;
 let client: MongoClient
 let collection: Collection
 
-beforeAll(async () => {
+beforeEach(async () => {
   mongod = await MongoMemoryServer.create();
   client = new MongoClient(`${mongod.getUri()}/testdb`)
   await client.connect()
   collection = client.db('testdb').collection('sessions')
 });
 
-afterAll(async () => {
+afterEach(async () => {
   await client.close()
   await mongod.stop()
 })
@@ -70,3 +70,49 @@ describe('Pizza counter test', () => {
     await bot.handleUpdate(createMessage(bot, 'second').update);
   });
 });
+
+describe('Test storing of simple string', () => {
+  type SimpleString = string
+
+  test('Should equals "test" on initial value', async () => {
+    const bot = createBot<SimpleString>();
+    const ctx = createMessage(bot);
+
+    bot.use(session({
+      initial() {
+        return 'test';
+      },
+      storage: new MongoDBAdapter({ collection }),
+    }));
+
+    await bot.handleUpdate(ctx.update);
+
+    bot.on('msg:text', (ctx) => {
+      expect(ctx.session).toEqual('test');
+    });
+  });
+
+  test('Should equals "test edited" on second message', async () => {
+    const bot = createBot<SimpleString>();
+
+    bot.use(session({
+      initial() {
+        return 'test';
+      },
+      storage: new MongoDBAdapter({ collection }),
+    }));
+
+    bot.hears('first', async (ctx) => {
+      ctx.session = `${ctx.session} edited`;
+      console.log(await collection.find().toArray())
+    });
+    
+    bot.hears('second', async (ctx) => {
+      console.log(await collection.find().toArray())
+      expect(ctx.session).toEqual('test edited');
+    });
+    
+    await bot.handleUpdate(createMessage(bot, 'first').update);
+    await bot.handleUpdate(createMessage(bot, 'second').update);
+  });
+})
