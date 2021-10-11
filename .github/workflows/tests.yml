@@ -3,7 +3,7 @@ name: Run tests
 on: [push, workflow_dispatch]
 
 jobs:
-  build:
+  node-tests:
     if: "! contains(toJSON(github.event.commits.*.message), '[skip-ci]')"
     runs-on: ubuntu-latest
     strategy:
@@ -21,3 +21,25 @@ jobs:
         run: npm run build
       - name: tests
         run: npm test
+  deno-tests:
+    services:
+      mongodb:
+          image: mongo
+          env:
+            MONGO_INITDB_ROOT_USERNAME: test
+            MONGO_INITDB_ROOT_PASSWORD: test
+            MONGO_INITDB_DATABASE: testdb
+          options: >-
+            --health-cmd mongo
+            --health-interval 10s
+            --health-timeout 5s
+            --health-retries 5
+          ports:
+            - 27017:27017
+    steps:
+      - uses: actions/checkout@v2
+      - name: Setup Deno
+        uses: maximousblk/setup-deno@v1
+      - run: deno -V
+      - name: Run tests
+        run: deno test __tests__/deno/session.ts
