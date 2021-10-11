@@ -104,11 +104,9 @@ describe('Test storing of simple string', () => {
 
     bot.hears('first', async (ctx) => {
       ctx.session = `${ctx.session} edited`;
-      console.log(await collection.find().toArray())
     });
     
     bot.hears('second', async (ctx) => {
-      console.log(await collection.find().toArray())
       expect(ctx.session).toEqual('test edited');
     });
     
