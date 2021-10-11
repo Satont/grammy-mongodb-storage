@@ -38,6 +38,7 @@ Deno.test('Pizza counter tests', async () => {
   await bot.handleUpdate(createMessage(bot, 'second').update);
 
   await clearCollection(collection)
+  client.close()
 })
 
 Deno.test('Simple string tests', async () => {
@@ -67,4 +68,5 @@ Deno.test('Simple string tests', async () => {
   await bot.handleUpdate(createMessage(bot, 'second').update);
 
   await clearCollection(collection)
+  client.close()
 })
