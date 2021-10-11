@@ -1,6 +1,6 @@
-import { Bot, Context } from 'grammy';
+import { Bot, Context } from 'https://deno.land/x/grammy@v1.3.3/mod.ts';
 
-export function createMessage(bot: Bot<any>, text = 'Test Text') {
+export const createMessage = (bot: Bot<any>, text = 'Test Text') => {
   const createRandomNumber = () => Math.floor(Math.random() * (123456789 - 1) + 1);
 
   const ctx = new Context({ 
