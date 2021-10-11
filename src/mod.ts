@@ -3,7 +3,7 @@ import { StorageAdapter, Collection } from './deps.deno.ts';
 export interface ISession {
   _id: { $oid: string };
   key: string;
-  value: string;
+  value: unknown;
 }
 
 export class MongoDBAdapter<T> implements StorageAdapter<T> {
@@ -19,7 +19,8 @@ export class MongoDBAdapter<T> implements StorageAdapter<T> {
     if (session === null || session === undefined) {
       return undefined;
     }
-    return JSON.parse(session.value) as unknown as T;
+
+    return session.value as T;
   }
 
   async write(key: string, data: T) {
