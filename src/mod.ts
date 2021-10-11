@@ -24,7 +24,7 @@ export class MongoDBAdapter<T> implements StorageAdapter<T> {
   }
 
   async write(key: string, data: T) {
-    await this.collection.updateOne({ key }, { data }, { upsert: true })
+    await this.collection.updateOne({ key }, { key, data }, { upsert: true })
   }
 
   async delete(key: string) {
