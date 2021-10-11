@@ -13,10 +13,6 @@ await client.connect({
 export const createMongoClient = async () => {
   const client = new MongoClient()
   await client.connect({
-    credential: {
-      username: 'test',
-      password: 'test',
-    },
     servers: [{ host: 'localhost', port: 27017 }],
     db: 'testdb'
   })

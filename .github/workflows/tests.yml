@@ -24,10 +24,6 @@ jobs:
     services:
       mongodb:
           image: mongo
-          env:
-            MONGO_INITDB_ROOT_USERNAME: test
-            MONGO_INITDB_ROOT_PASSWORD: test
-            MONGO_INITDB_DATABASE: testdb
           options: >-
             --health-cmd mongo
             --health-interval 10s
@@ -41,4 +37,4 @@ jobs:
         uses: maximousblk/setup-deno@v1
       - run: deno -V
       - name: Run tests
-        run: deno test __tests__/deno/session.ts --unstable --no-check
+        run: deno test __tests__/deno/session.ts --unstable --no-check --allow-net
