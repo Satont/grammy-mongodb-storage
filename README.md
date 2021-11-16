@@ -26,5 +26,5 @@ import {
 ## Usage
 
 You can check
-[examples](https://github.com/Satont/grammy-typeorm-storage/tree/main/examples)
+[examples](https://github.com/Satont/grammy-mongodb-storage/tree/main/examples)
 folder, which contains deno and node examples.:
