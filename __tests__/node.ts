@@ -1,19 +1,13 @@
 import { session } from 'grammy';
 import { MongoClient, Collection } from 'mongodb';
 import { MongoMemoryServer } from 'mongodb-memory-server';
+import { createBot, createMessage } from '@satont/grammy-storage-utils'
 
-import { MongoDBAdapter } from '../../src/mod';
-
-import { createBot } from './helpers/createBot';
-import { createMessage } from './helpers/createMessage';
-
-export interface SessionData {
-  pizzaCount: number;
-}
+import { ISession, MongoDBAdapter } from '../dist/mod';
 
 let mongod: MongoMemoryServer;
 let client: MongoClient
-let collection: Collection
+let collection: Collection<ISession>
 
 beforeEach(async () => {
   mongod = await MongoMemoryServer.create();
@@ -27,13 +21,9 @@ afterEach(async () => {
   await mongod.stop()
 })
 
-test('Bot should be created', () => {
-  expect(createBot()).not.toBeFalsy();
-});
-
 describe('Pizza counter test', () => {
   test('Pizza counter should be equals 0 on initial', async () => {
-    const bot = createBot<SessionData>();
+    const bot = createBot();
     const ctx = createMessage(bot);
 
     bot.use(session({
@@ -51,7 +41,7 @@ describe('Pizza counter test', () => {
   });
 
   test('Pizza counter should be equals 1 after first message', async () => {
-    const bot = createBot<SessionData>();
+    const bot = createBot();
 
     bot.use(session({
       initial: () => ({ pizzaCount: 0 }),
@@ -75,7 +65,7 @@ describe('Test storing of simple string', () => {
   type SimpleString = string
 
   test('Should equals "test" on initial value', async () => {
-    const bot = createBot<SimpleString>();
+    const bot = createBot(false);
     const ctx = createMessage(bot);
 
     bot.use(session({
@@ -93,7 +83,7 @@ describe('Test storing of simple string', () => {
   });
 
   test('Should equals "test edited" on second message', async () => {
-    const bot = createBot<SimpleString>();
+    const bot = createBot(false);
 
     bot.use(session({
       initial() {
