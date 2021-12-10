@@ -21,10 +21,6 @@ afterEach(async () => {
   await mongod.stop()
 })
 
-test('Bot should be created', () => {
-  expect(createBot()).not.toBeFalsy();
-});
-
 describe('Pizza counter test', () => {
   test('Pizza counter should be equals 0 on initial', async () => {
     const bot = createBot();

@@ -1,24 +1,15 @@
+import { MongoClient, Collection } from "https://deno.land/x/mongo@v0.26.0/mod.ts";
 import { expect } from 'https://deno.land/x/expect/mod.ts'
 import { session } from "https://deno.land/x/grammy@v1.3.3/mod.ts";
-import { createBot } from './helpers/createBot.ts'
-import { createMessage } from "./helpers/createMessage.ts";
-import { clearCollection, createMongoClient } from "./helpers/mongo.ts";
-import { MongoDBAdapter } from '../../src/mod.ts'
-
-interface SessionData {
-  pizzaCount: number;
-}
-
-Deno.test('Bot should be created', () => {
-  expect(createBot()).not.toBeFalsy()
-})
+import { createBot, createMessage } from 'https://deno.land/x/grammy_storage_utils@1.0.1/mod.ts'
+import { MongoDBAdapter } from '../src/mod.ts'
 
 Deno.test('Pizza counter tests', async () => {
   const client = await createMongoClient()
   const db = client.database('testdb')
   const collection = db.collection<any>('sessions')
 
-  const bot = createBot<SessionData>();
+  const bot = createBot();
 
   bot.use(session({
     initial: () => ({ pizzaCount: 0 }),
@@ -46,8 +37,7 @@ Deno.test('Simple string tests', async () => {
   const db = client.database('testdb')
   const collection = db.collection<any>('sessions')
 
-  type SimpleString = string
-  const bot = createBot<SimpleString>();
+  const bot = createBot(false);
 
   bot.use(session({
     initial() {
@@ -70,3 +60,15 @@ Deno.test('Simple string tests', async () => {
   await clearCollection(collection)
   client.close()
 })
+
+const createMongoClient = async () => {
+  const client = new MongoClient()
+  await client.connect({
+    servers: [{ host: 'localhost', port: 27017 }],
+    db: 'testdb'
+  })
+
+  return client
+}
+
+const clearCollection = (col: Collection<any>) => col.deleteMany({})
