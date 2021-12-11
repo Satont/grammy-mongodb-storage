@@ -1,6 +1,6 @@
-import { Bot, Context, session, SessionFlavor } from "https://deno.land/x/grammy@v1.3.3/mod.ts";
+import { Bot, Context, session, SessionFlavor } from "https://deno.land/x/grammy@v1.5.3/mod.ts";
 import { MongoDBAdapter, ISession } from "https://deno.land/x/grammy_mongodb_storage/mod.ts";
-import { MongoClient } from "https://deno.land/x/mongo@v0.26.0/mod.ts";
+import { MongoClient } from "https://deno.land/x/mongo@v0.28.1/mod.ts";
 
 interface SessionData {
   counter: number;
