@@ -8,6 +8,16 @@ on:
 jobs:
   update-dependencies:
     runs-on: ubuntu-latest
+    services:
+      mongodb:
+          image: mongo
+          options: >-
+            --health-cmd mongo
+            --health-interval 10s
+            --health-timeout 5s
+            --health-retries 5
+          ports:
+            - 27017:27017
     steps:
       - uses: actions/checkout@v2
       - uses: denoland/setup-deno@v1
