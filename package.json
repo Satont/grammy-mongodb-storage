@@ -31,7 +31,7 @@
     "@types/node": "^16.11.12",
     "deno2node": "^1.0.0",
     "grammy": "^1.5.2",
-    "jest": "^27.4.4",
+    "jest": "^27.4.5",
     "mongodb": "^4.2.1",
     "mongodb-memory-server": "^7.6.3",
     "rimraf": "^3.0.2",
