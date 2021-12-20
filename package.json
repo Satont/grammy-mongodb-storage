@@ -30,7 +30,7 @@
     "@types/jest": "^27.0.3",
     "@types/node": "^16.11.13",
     "deno2node": "^1.0.0",
-    "grammy": "^1.5.2",
+    "grammy": "^1.5.4",
     "jest": "^27.4.5",
     "mongodb": "^4.2.2",
     "mongodb-memory-server": "^7.6.3",
