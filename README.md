@@ -28,3 +28,20 @@ import {
 You can check
 [examples](https://github.com/Satont/grammy-mongodb-storage/tree/main/examples)
 folder, which contains deno and node examples.:
+
+### Mongoose
+
+If you use Mongoose for operations with mongodb, you can still use this adapter.
+You need to get a native connection and use it:
+
+```ts
+import mongoose from "mongoose";
+import MongoStorage from "@satont/grammy-mongodb-storage";
+
+await mongoose.connect("mongodb://localhost:27017/test");
+
+const collection = mongoose.connection.db.collection<MongoStorage.ISession>(
+  "sessions",
+);
+new MongoStorage.MongoDBAdapter({ collection });
+```
